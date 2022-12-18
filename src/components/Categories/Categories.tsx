@@ -1,20 +1,20 @@
 import React from 'react'
 
+const categories = [
+   'Все',
+   'Мясные',
+   'Вегетарианская',
+   'Гриль',
+   'Острые',
+   'Закрытые'
+]
+
 type CategoriesProps = {
    value: number;
-   onClickCategoty: any;
+   onClickCategoty: (i: number) => void;
 };
 
 const Categories: React.FC<CategoriesProps> = ({ value, onClickCategoty }) => {
-
-   const categories = [
-      'Все',
-      'Мясные',
-      'Вегетарианская',
-      'Гриль',
-      'Острые',
-      'Закрытые'
-   ]
 
    const items = categories.map((item, i) => (
       <li key={i}

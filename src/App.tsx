@@ -12,9 +12,6 @@ import NotFound from "./pages/NotFound";
 
 
 function App() {
-
-
-
   return (
     <div className="wrapper">
       <Header />

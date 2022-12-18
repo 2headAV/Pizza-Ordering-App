@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzasSlice';
+import { RootState } from '../redux/store'
 
 
 import Categories from "../components/Categories/Categories";
@@ -22,8 +23,8 @@ const Home: React.FC = () => {
    const isSearch = useRef(false);
    const isMounted = useRef(false);
 
-   const { categoryId, sort, currentPage, searchValue } = useSelector((state: any) => state.filter);
-   const { items, status } = useSelector((state: any) => state.pizza);
+   const { categoryId, sort, currentPage, searchValue } = useSelector((state: RootState) => state.filter);
+   const { items, status } = useSelector((state: RootState) => state.pizza);
 
    const sortType = sort.sortProperty;
 
