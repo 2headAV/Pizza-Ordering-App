@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzasSlice';
-import { RootState } from '../redux/store'
+import { useSelector } from 'react-redux';
+import { FilterSliceState, setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { fetchPizzas, SearchPizzaParams } from '../redux/slices/pizzasSlice';
+import { RootState, useAppDispatch } from '../redux/store'
 
 
 import Categories from "../components/Categories/Categories";
@@ -19,7 +19,7 @@ import { list } from '../components/Sort/Sort';
 const Home: React.FC = () => {
 
    const navigate = useNavigate();
-   const dispatch = useDispatch();
+   const dispatch = useAppDispatch();
    const isSearch = useRef(false);
    const isMounted = useRef(false);
 
@@ -41,13 +41,12 @@ const Home: React.FC = () => {
       const search = searchValue ? `&search=${searchValue}` : '';
 
       dispatch(
-         // @ts-ignore
          fetchPizzas({
             order,
             sortBy,
             category,
             search,
-            currentPage
+            currentPage: String(currentPage)
          }));
    }
 
@@ -67,12 +66,14 @@ const Home: React.FC = () => {
    // если был первый рендер, то проверяем URL-параметры и сохраняем в Redux
    useEffect(() => {
       if (window.location.search) {
-         const params = qs.parse(window.location.search.substring(1));
+         const params = (qs.parse(window.location.search.substring(1)) as unknown) as SearchPizzaParams;
+         const sort = list.find(obj => obj.sortProperty === params.sortBy);
 
-         const sort = list.find(obj => obj.sortProperty === params.sortProperty);
          dispatch(setFilters({
-            ...params,
-            sort
+            categoryId: Number(params.category),
+            currentPage: Number(params.currentPage),
+            searchValue: params.search,
+            sort: sort || list[0],
          }));
          isSearch.current = true;
       }
@@ -96,7 +97,8 @@ const Home: React.FC = () => {
          price={item.price}
          imageUrl={item.imageUrl}
          sizes={item.sizes}
-         types={item.types} />)
+         types={item.types}
+         rating={item.rating} />)
 
    const skeletons = [...new Array(6)].map((_, index) => <PizzaBlockSkeleton key={index} />);
 
