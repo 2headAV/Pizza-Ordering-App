@@ -3,7 +3,7 @@ import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
-import { FilterSliceState, setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import { fetchPizzas, SearchPizzaParams } from '../redux/slices/pizzasSlice';
 import { RootState, useAppDispatch } from '../redux/store'
 

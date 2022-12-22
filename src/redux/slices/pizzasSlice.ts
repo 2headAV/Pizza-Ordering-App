@@ -1,14 +1,7 @@
 import axios from "axios";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { Sort } from "./filterSlice";
 
-type FetchPizzasArgs = {
-   sortBy: string;
-   order: string;
-   category: string;
-   search: string;
-   currentPage: number;
-}
+
 //? Комментарий выше, равен тому, что написано ниже если бы все значения были string
 // type FetchPizzasArgs = Record<string, string>;
 //! Можно не создавать новый тип, а сразу передать значение в параметр аргумента
@@ -85,3 +78,5 @@ const pizzaSlice = createSlice({
 export const { setItems } = pizzaSlice.actions;
 
 export default pizzaSlice.reducer;
+
+
